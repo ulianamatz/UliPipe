@@ -2,8 +2,8 @@ import random
 from pathlib import Path
 
 from maya import OpenMayaUI as omui
-from PySide2 import QtCore, QtGui, QtWidgets
-from shiboken2 import wrapInstance
+from uli_pipe.vendor.Qt import QtCore, QtGui, QtWidgets
+from shiboken6 import wrapInstance
 
 
 def maya_main_window():

@@ -1,17 +1,16 @@
-# Library used for UI: Qt (PySide2 or PyQt5)
-
 from pathlib import Path
 
 from maya import cmds
-from PySide2 import QtWidgets
+from uli_pipe.vendor.Qt import QtWidgets
 
 
 def set_project_path():
     # Query the current project path (we do it first in case the user cancel the action of setting the new path)
     new_project_path = Path(QtWidgets.QFileDialog.getExistingDirectory())
+    print(new_project_path)
 
     # Continue only if the user didn't cancel the operation
-    if new_project_path != Path(".."):
+    if new_project_path != Path("."):
         # check if the path to .ulipipe exists, else create it
         ulipipe_path = Path.home() / ".ulipipe"
         if ulipipe_path.exists() is False:

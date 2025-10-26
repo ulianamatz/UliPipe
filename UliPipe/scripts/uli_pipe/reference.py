@@ -1,10 +1,8 @@
-# Library used for UI: Qt (PySide2 or PyQt5)
-
 from pathlib import Path
 
-from PySide2 import QtWidgets, QtCore
-from PySide2.QtWidgets import QLabel
-from shiboken2 import wrapInstance
+from uli_pipe.vendor.Qt import QtWidgets, QtCore
+from uli_pipe.vendor.Qt.QtWidgets import QLabel
+from shiboken6 import wrapInstance
 from maya import OpenMayaUI as omui
 from maya import cmds
 
