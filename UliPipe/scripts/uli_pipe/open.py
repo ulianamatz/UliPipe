@@ -210,14 +210,14 @@ class OpenShot(QtWidgets.QDialog):
         self.update_shots_versions()
 
         # Create the open button
-        self.open_button = QtWidgets.QPushButton("Open Asset")
+        self.open_button = QtWidgets.QPushButton("Open Shot")
         self.open_button.setFixedHeight(35)
 
     def create_layouts(self):
         self.main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.main_layout)
 
-        # Asset name layout
+        # Shot name layout
         self.shot_name_layout = QtWidgets.QHBoxLayout()
         self.shot_name_layout.addWidget(self.shot_name_label)
         self.shot_name_layout.addWidget(self.shot_name)
@@ -244,7 +244,7 @@ class OpenShot(QtWidgets.QDialog):
         self.department.currentIndexChanged.connect(lambda: self.update_shots_versions())
 
     def open_shot_and_close(self, name: str, department: str, version_file: str):
-        # Call the backend function 'open_asset' and close the window afterward
+        # Call the backend function 'open_shot' and close the window afterward
         success = open_shot(name=name, department=department, shot_dirpath=get_project_path() / "05_shot", version_file=version_file)
         if success is True:
             self.close()
