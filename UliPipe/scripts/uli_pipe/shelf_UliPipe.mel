@@ -1,0 +1,375 @@
+global proc shelf_UliPipe () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Set Project Path" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Set Project Path" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "PATH" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Path.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Path.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import project_path\n\nproject_path.set_project_path()\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    separator
+        -enable 1
+        -width 12
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -style "shelf" 
+        -horizontal 0
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create an asset" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Create Asset" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "crAsset" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Crasset .jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Crasset .jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import create\n\ntry:\n    cr_asset.close()\n    cr_asset.deleteLater()\nexcept:\n    pass\n\ncr_asset = create.CreateAsset()\ncr_asset.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Open Asset" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Open Asset" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "opAsset" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Opasset.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Opasset.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import open\n\ntry:\n    op_asset.close()\n    op_asset.deleteLater()\nexcept:\n    pass\n\nop_asset = open.OpenAsset()\nop_asset.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    separator
+        -enable 1
+        -width 12
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -style "shelf" 
+        -horizontal 0
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create Shot" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Create Shot" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "crShot" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Crshot.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Crshot.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import create\n\ntry:\n    cr_shot.close()\n    cr_shot.deleteLater()\nexcept:\n    pass\n\ncr_shot = create.CreateShot()\ncr_shot.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Open Shot" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Open Shot" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "opShot" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Opshot.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Opshot.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import open\n\ntry:\n    op_shot.close()\n    op_shot.deleteLater()\nexcept:\n    pass\n\nop_shot = open.OpenShot()\nop_shot.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    separator
+        -enable 1
+        -width 12
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -style "shelf" 
+        -horizontal 0
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Save an edit increment" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Save Edit" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "EDIT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Edit.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Edit.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import save_file\n\nsave_file.save_edit()\n\n\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Save Publish" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Save Publish" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "PUB" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Pub.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Pub.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import save_file\n\nsave_file.save_publish()\n\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Reference Asset" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reference Asset" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "REF" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Ref.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Ref.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import reference\n\ntry:\n    ref.close()\n    ref.deleteLater()\nexcept:\n    pass\n\nref = reference.ReferenceAsset()\nref.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    separator
+        -enable 1
+        -width 12
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -style "shelf" 
+        -horizontal 0
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Silly Popup" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "?" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "?" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Surprise.jpg" 
+        -image1 "C:/Users/Uli/Documents/maya/2024/prefs/icons/UliPipe-icons/Surprise.jpg" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import popup\n\ntry:\n    my_window.close()\n    my_window.deleteLater()\nexcept:\n    pass\n\nmy_window = popup.SillyPopup()\nmy_window.show()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
