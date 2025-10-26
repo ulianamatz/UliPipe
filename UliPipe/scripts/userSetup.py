@@ -7,7 +7,7 @@ from maya import cmds
 
 
 def load_uli_shelf():
-    shelf_path = Path(__file__).parent / "uli_pipe" / "shelf_UliPipe.mel"
+    shelf_path = Path(__file__).parent / "uli_pipe" / "assets" /"shelf_UliPipe.mel"
     SHELF_NAME = "UliPipe"
     shelf_exists = cmds.shelfLayout(SHELF_NAME, exists=True)
 
