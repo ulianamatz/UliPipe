@@ -54,7 +54,7 @@ def install_mod():
     shutil.copytree(REPOSITORY_DIR, uli_dirpath)
 
     # Copy the shelf icons to the icons dir
-    icons_dirpath = REPOSITORY_DIR.parent / ICONS_FOLDER_NAME
+    icons_dirpath = REPOSITORY_DIR.parent / "assets" / ICONS_FOLDER_NAME
     for version in SUPPORTED_MAYA_VERSIONS:
         version_path = Path(MAYA_APP_DIR) / str(version)
         if version_path.exists():
