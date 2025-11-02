@@ -2,6 +2,7 @@
 from pathlib import Path
 
 from maya import cmds
+from maya import mel
 from uli_pipe.project_path import get_project_path
 from uli_pipe.open import maya_main_window
 from uli_pipe.vendor.Qt import QtWidgets
@@ -83,18 +84,21 @@ def save_publish():
     new_name = f"{name_parts[0]}_P"
     publish_path = publish_path / (new_name + scene_extension)
 
-    # Get the selection
-    sel = cmds.ls(selection=True)
+    # Get the current department (modeling, lookdev, etc..)
+    dept = current_file.parents[0].name
+    if dept == "modeling":
+        # Get the selection
+        sel = cmds.ls(selection=True)
+        # Check if only one item is selected
+        if len(sel) != 1:
+            raise RuntimeError("Please select only one group for the modeling export")
 
-    # Check if only one item is selected
-    if len(sel) != 1:
-        raise RuntimeError("Please select only one group for the export")
     # Check if the file path exists
     if not publish_path.parent.exists():
         raise NotADirectoryError(f"The given path '{publish_path.parent}' does not exist")
     # Check if the file name ends in _P
     if not publish_path.stem.endswith("_P"):
-        raise NameError(f"The given file name is wrong, should end with '_P' as it is a publish")
+        raise NameError("The given file name is wrong, should end with '_P' as it is a publish")
 
     # Check if there is already a file at the given path
     if publish_path.exists():
@@ -116,12 +120,20 @@ def save_publish():
         destination = backup_path / publish_version_name
         publish_path.rename(destination)
 
-    # Export the USD file
-    _export_maya_file_from_maya(export_path=publish_path, anim_data=False)
-    msg = f"<hl>Model published as a Maya file</hl>"
+    # Export the file
+    if dept == "modeling":
+        _export_maya_selection_from_maya(export_path=publish_path, anim_data=False)
+    else:
+        _export_maya_file_from_maya(export_path=publish_path, anim_data=False)
+
+    msg = "<hl>Model published as a Maya file</hl>"
     cmds.inViewMessage(statusMessage=msg, position="midCenter", fade=True, dragKill=True, clickKill=True)
 
 
 def _export_maya_file_from_maya(export_path: Path, anim_data: bool = False):
     # Export the Maya file
-    cmds.file(export_path.as_posix(), force=True, exportSelected=True, type="mayaAscii", channels=anim_data, constructionHistory=False)
+    mel.eval(f'file -force -type "mayaBinary" -ea "{export_path.as_posix()}";')
+
+def _export_maya_selection_from_maya(export_path: Path, anim_data: bool = False):
+    # Export the Maya file
+    cmds.file(export_path.as_posix(), force=True, exportSelected=True, type="mayaBinary", channels=anim_data, constructionHistory=False)
