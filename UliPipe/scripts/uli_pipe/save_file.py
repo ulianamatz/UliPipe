@@ -3,6 +3,8 @@ from pathlib import Path
 
 from maya import cmds
 from uli_pipe.project_path import get_project_path
+from uli_pipe.open import maya_main_window
+from uli_pipe.vendor.Qt import QtWidgets
 
 
 def save_edit():
@@ -44,6 +46,11 @@ def save_edit():
 
 
 def save_publish():
+    msg = "Have you run the cleanup & sanity before publishing? ;)"
+    confirmation = QtWidgets.QMessageBox.question(maya_main_window(), "Publish Confirmation", msg)
+    if confirmation != QtWidgets.QMessageBox.Yes:
+        return
+
     # Get the path to the project
     project_path = get_project_path()
 
