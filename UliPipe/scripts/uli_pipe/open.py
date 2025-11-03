@@ -3,6 +3,7 @@ from pathlib import Path
 
 from maya import OpenMayaUI as omui
 from maya import cmds
+from maya import mel
 from uli_pipe.vendor.Qt import QtCore, QtWidgets
 from uli_pipe.vendor.Qt.QtWidgets import QLabel
 from shiboken6 import wrapInstance
@@ -20,6 +21,15 @@ def open_scene(scene_path: Path):
             cmds.file(save=True)
         elif result == "Cancel":
             return False
+
+    # Get the maya project path
+    asset_path = str(scene_path).split("maya")
+    if len(asset_path) > 1:
+        maya_project_path = Path(asset_path[0]) / "maya"
+        # Set the maya project
+        if maya_project_path.exists():
+            mel.eval(f'setProject "{maya_project_path.as_posix()}"')
+
     # Open the new file
     cmds.file(scene_path, open=True, force=True)
     return True
