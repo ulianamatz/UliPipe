@@ -7,6 +7,8 @@ from uli_pipe.project_path import get_project_path
 from uli_pipe.open import maya_main_window
 from uli_pipe.vendor.Qt import QtWidgets
 
+PUBLISH_EXTENSION = ".mb"
+
 
 def save_edit():
     # Get the path to the project
@@ -77,12 +79,11 @@ def save_publish():
 
     # Create the publish name
     current_scene_name = current_file.stem
-    scene_extension = current_file.suffix
     name_parts = current_scene_name.split("_E_")
     if len(name_parts) != 2:
         raise NameError("The file name doesn't follow the format: 'name'_E_'number'")
     new_name = f"{name_parts[0]}_P"
-    publish_path = publish_path / (new_name + scene_extension)
+    publish_path = publish_path / (new_name + PUBLISH_EXTENSION)
 
     # Get the current department (modeling, lookdev, etc..)
     dept = current_file.parents[0].name
@@ -132,8 +133,10 @@ def save_publish():
 
 def _export_maya_file_from_maya(export_path: Path, anim_data: bool = False):
     # Export the Maya file
-    mel.eval(f'file -force -type "mayaBinary" -ea "{export_path.as_posix()}";')
+    extension = "mayaAscii" if PUBLISH_EXTENSION == ".ma" else "mayaBinary"
+    mel.eval(f'file -force -type "{extension}" -ea "{export_path.as_posix()}";')
 
 def _export_maya_selection_from_maya(export_path: Path, anim_data: bool = False):
     # Export the Maya file
-    cmds.file(export_path.as_posix(), force=True, exportSelected=True, type="mayaBinary", channels=anim_data, constructionHistory=False)
+    extension = "mayaAscii" if PUBLISH_EXTENSION == ".ma" else "mayaBinary"
+    cmds.file(export_path.as_posix(), force=True, exportSelected=True, type=extension, channels=anim_data, constructionHistory=False)
