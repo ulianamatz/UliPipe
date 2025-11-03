@@ -393,6 +393,41 @@ global proc shelf_UliPipe () {
         -commandRepeatable 1
         -flat 1
     ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Reference Cam Rig" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reference Cam Rig" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "RIG" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "UliPipe-icons/cam_rig.png" 
+        -image1 "UliPipe-icons/cam_rig.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from uli_pipe import project_path, reference\n\npipe_path = project_path.get_project_path()\ncam_rig_folder = pipe_path / \"02_ressource\" / \"cam_rig\"\n\nif not cam_rig_folder.exists():\n    raise ValueError(\"There is no cam_rig folder in 02_ressource\")\n    \nfiles = list(cam_rig_folder.iterdir())\nif len(files) == 0 or files[0].suffix not in(\".ma\", \".mb\"):\n    raise ValueError(\"There is no camera rig file in the cam_rig folder\")\n    \nrig_cam_path = cam_rig_folder / files[0]\nreference.reference_scene(rig_cam_path)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
     separator
         -enable 1
         -width 12
@@ -556,6 +591,41 @@ global proc shelf_UliPipe () {
         -marginHeight 1
         -command "MatchTransform" 
         -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Pivot at World Center" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Pivot at World Center" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "pivot" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "UliPipe-icons/pivot.png" 
+        -image1 "UliPipe-icons/pivot.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from maya import cmds\n\nsel = cmds.ls(selection=True)\n\nfor i in sel:\n    cmds.setAttr(f\"{i}.rotatePivot\", 0, 0, 0)\n    cmds.setAttr(f\"{i}.scalePivot\", 0, 0, 0)" 
+        -sourceType "python" 
         -commandRepeatable 1
         -flat 1
     ;
