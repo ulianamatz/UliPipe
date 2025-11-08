@@ -85,15 +85,6 @@ def save_publish():
     new_name = f"{name_parts[0]}_P"
     publish_path = publish_path / (new_name + PUBLISH_EXTENSION)
 
-    # Get the current department (modeling, lookdev, etc..)
-    dept = current_file.parents[0].name
-    if dept == "modeling":
-        # Get the selection
-        sel = cmds.ls(selection=True)
-        # Check if only one item is selected
-        if len(sel) != 1:
-            raise RuntimeError("Please select only one group for the modeling export")
-
     # Check if the file path exists
     if not publish_path.parent.exists():
         raise NotADirectoryError(f"The given path '{publish_path.parent}' does not exist")
@@ -122,10 +113,7 @@ def save_publish():
         publish_path.rename(destination)
 
     # Export the file
-    if dept == "modeling":
-        _export_maya_selection_from_maya(export_path=publish_path, anim_data=False)
-    else:
-        _export_maya_file_from_maya(export_path=publish_path, anim_data=False)
+    _export_maya_selection_from_maya(export_path=publish_path, anim_data=False)
 
     msg = "<hl>Model published as a Maya file</hl>"
     cmds.inViewMessage(statusMessage=msg, position="midCenter", fade=True, dragKill=True, clickKill=True)
