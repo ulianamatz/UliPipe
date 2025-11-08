@@ -10,9 +10,6 @@ from .project_path import get_project_path
 
 
 def create_asset(name: str, asset_type: str, asset_dirpath: Path):
-    # Make sure the asset name is capitalised
-    name = name.capitalize()
-
     # Create asset path
     asset_path = asset_dirpath / asset_type / name
 
