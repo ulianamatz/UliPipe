@@ -604,6 +604,41 @@ global proc shelf_UliPipe () {
         -manage 1
         -visible 1
         -preventOverride 0
+        -annotation "Recenter on Grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Recenter on Grid" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "grid" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "CenterPivot.png" 
+        -image1 "CenterPivot.png" 
+        -style "iconOnly" 
+        -marginWidth 0
+        -marginHeight 1
+        -command "from maya import cmds\n\nsel = cmds.ls(selection=True)\nif len(sel) != 0 and \"transform\" in cmds.nodeType(sel[0], inherited=True):\n    xmin, ymin, zmin, xmax, ymax, zmax = cmds.xform(sel[0], query=True, boundingBox=True)\n    x_length = xmax - xmin\n    z_length = zmax - zmin\n    x = (x_length / 2 + xmin) * -1\n    y = ymin * -1\n    z = (z_length / 2 + zmin) * -1\n    \n    cmds.xform(sel[0], translation=(x, y, z), relative=True, worldSpace=True)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
         -annotation "Pivot at World Center" 
         -enableBackground 0
         -backgroundColor 0 0 0 
