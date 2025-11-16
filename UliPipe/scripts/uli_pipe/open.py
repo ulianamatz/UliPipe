@@ -47,7 +47,7 @@ def open_asset(name: str, asset_type: str, department: str, version_file: str, a
     dir_files = [i.stem for i in dir_paths]
     # IF no files, create the first one
     if len(dir_files) == 0:
-        first_file_name = f"{name.lower()}_{department}_E_001.ma"
+        first_file_name = f"{name}_{department}_E_001.ma"
         first_file_path = scene_dirpath / first_file_name
         # Get the template scene path
         template_path = Path(__file__).parent / "assets" / "scene_template.ma"
@@ -75,7 +75,7 @@ def open_shot(name: str, department: str, shot_dirpath: Path, version_file: str)
     dir_files = [i.stem for i in dir_paths]
     # IF no files, create the first one
     if len(dir_files) == 0:
-        first_file_name = f"{name.lower()}_{department}_E_001.ma"
+        first_file_name = f"{name}_{department}_E_001.ma"
         first_file_path = scene_dirpath / first_file_name
         # Get the template scene path
         template_path = Path(__file__).parent / "assets" / "scene_template.ma"
