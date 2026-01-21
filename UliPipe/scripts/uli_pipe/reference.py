@@ -2,11 +2,15 @@ from pathlib import Path
 
 from maya import OpenMayaUI as omui
 from maya import cmds
-from shiboken6 import wrapInstance
 
 from uli_pipe.project_path import get_project_path
 from uli_pipe.vendor.Qt import QtCore, QtWidgets
 from uli_pipe.vendor.Qt.QtWidgets import QLabel
+
+try:
+    from shiboken6 import wrapInstance
+except ImportError:
+    from shiboken2 import wrapInstance
 
 
 # Backend ---------------------------------------------------------------------

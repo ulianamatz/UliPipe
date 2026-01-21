@@ -3,11 +3,15 @@ from pathlib import Path
 
 from maya import OpenMayaUI as omui
 from maya import cmds
-from shiboken6 import wrapInstance
 
 from uli_pipe.vendor.Qt import QtCore, QtWidgets
 
 from .project_path import get_project_path
+
+try:
+    from shiboken6 import wrapInstance
+except ImportError:
+    from shiboken2 import wrapInstance
 
 
 def create_asset(name: str, asset_type: str, asset_dirpath: Path):
