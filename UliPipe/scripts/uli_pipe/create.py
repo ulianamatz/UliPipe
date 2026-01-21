@@ -50,9 +50,12 @@ def create_asset(name: str, asset_type: str, asset_dirpath: Path):
 
 def create_shot(sequence_number: int, shot_number: int, shot_dirpath: Path):
     # Format the shot name (correct nomenclature)
-    shot_name = f"sq{str(sequence_number).zfill(4)}_sh{str(shot_number).zfill(4)}"
+    padded_sequence_number = str(sequence_number).zfill(4)
+    padded_shot_number = str(shot_number).zfill(4)
+    shot_name = f"sq{padded_sequence_number}_sh{padded_shot_number}"
     # Create shot path
-    shot_path = shot_dirpath / shot_name
+    sequence_path = shot_dirpath / f"sq{padded_sequence_number}"
+    shot_path = sequence_path / shot_name
 
     # Check if the path exists and ends in "05_shot"
     if shot_dirpath.exists() is False:
@@ -63,13 +66,17 @@ def create_shot(sequence_number: int, shot_number: int, shot_dirpath: Path):
     if shot_path.exists():
         raise NameError(f"There is already a shot named '{shot_name}' in the shot directory")
 
+    # Create the sequence folder if it does not exist yet
+    if not sequence_path.exists():
+        sequence_path.mkdir()
+
     # Copy the shot template and paste it with the new name in the correct directory
     template_path = shot_dirpath / "_template_workspace_shot"
     shutil.copytree(template_path, shot_path)
 
     cmds.inViewMessage(
         message=f"<hl>Shot '{shot_name}' has been created</hl>",
-        pos="midCenter",
+        position="midCenter",
         fade=True,
         fadeStayTime=3000,
         clickKill=True,

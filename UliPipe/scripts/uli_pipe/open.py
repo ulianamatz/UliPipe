@@ -314,7 +314,7 @@ class OpenShot(QtWidgets.QDialog):
         success = open_shot(
             name=name,
             department=department,
-            shot_dirpath=get_project_path() / "05_shot",
+            shot_dirpath=get_project_path() / "05_shot" / name.split("_")[0],
             version_file=version_file,
         )
         if success is True:
@@ -323,15 +323,21 @@ class OpenShot(QtWidgets.QDialog):
 
     def update_shots_names(self):
         shots_path = get_project_path() / "05_shot"
-        shots_names = [i.stem for i in shots_path.iterdir()]
-        shots_names = [i for i in shots_names if i.startswith("sq")]
+        sequences = [i for i in shots_path.iterdir() if i.stem.startswith("sq")]
+        sequences.reverse()
+        shot_names = []
+        for seq in sequences:
+            shots = [i.stem for i in seq.iterdir()]
+            shot_names += shots
         self.shot_name.clear()
-        self.shot_name.addItems(shots_names)
+        self.shot_name.addItems(shot_names)
 
     def update_shots_versions(self):
+        sequence = self.shot_name.currentText().split("_")[0]
         shot_path = (
             get_project_path()
             / "05_shot"
+            / sequence
             / self.shot_name.currentText()
             / "maya"
             / "scenes"
@@ -339,6 +345,7 @@ class OpenShot(QtWidgets.QDialog):
             / "edit"
         )
         versions_names = [i.name for i in shot_path.iterdir()]
+        versions_names.reverse()
         self.shot_version.clear()
         self.shot_version.addItems(versions_names)
         self.shot_version.setCurrentIndex(len(versions_names) - 1)
