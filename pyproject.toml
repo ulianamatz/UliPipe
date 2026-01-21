@@ -1,0 +1,9 @@
+[project]
+name = "ulipipe"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "types-maya-strict>=2025.0.6",
+]

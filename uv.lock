@@ -1,0 +1,22 @@
+version = 1
+revision = 3
+requires-python = ">=3.12"
+
+[[package]]
+name = "types-maya-strict"
+version = "2025.0.6"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/05/0a/63e5ff70959466944c7776a04283502e03a509694ed9866ee7ebf22225f4/types_maya_strict-2025.0.6-py2.py3-none-any.whl", hash = "sha256:4516ad7ed813a36fb6e252d6085ae86fcb63173bfaf97526c74a880577627862", size = 281084, upload-time = "2025-07-22T02:56:52.068Z" },
+]
+
+[[package]]
+name = "ulipipe"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "types-maya-strict" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "types-maya-strict", specifier = ">=2025.0.6" }]
