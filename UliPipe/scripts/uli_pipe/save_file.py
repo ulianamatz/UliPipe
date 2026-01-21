@@ -1,10 +1,10 @@
 # Order convention for imports: Python base libraries, third-party libraries, your own libraries
 from pathlib import Path
 
-from maya import cmds
-from maya import mel
-from uli_pipe.project_path import get_project_path
+from maya import cmds, mel
+
 from uli_pipe.open import maya_main_window
+from uli_pipe.project_path import get_project_path
 from uli_pipe.vendor.Qt import QtWidgets
 
 PUBLISH_EXTENSION = ".mb"
@@ -17,14 +17,18 @@ def save_edit():
     # Get a path to the current file (in Maya)
     current_file = cmds.file(query=True, sceneName=True)
     if len(current_file) == 0:
-        raise FileExistsError("The current Maya scene is not in any file, please save the file, before saving an increment")
+        raise FileExistsError(
+            "The current Maya scene is not in any file, please save the file, before saving an increment"
+        )
     else:
         current_file = Path(current_file)
 
     # Check if the current file is located inside the current project
     if current_file.is_relative_to(project_path) is False:
         # IF not, raise an error
-        raise RuntimeError("The current Maya file is not located within the current project, please set the correct project")
+        raise RuntimeError(
+            "The current Maya file is not located within the current project, please set the correct project"
+        )
 
     # Get its name and increment it
     current_scene_name = current_file.stem
@@ -45,7 +49,14 @@ def save_edit():
     cmds.file(rename=new_path)
     cmds.file(save=True, force=True)
 
-    cmds.inViewMessage(message=f"<hl>Versioned up to version '{new_number}'</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+    cmds.inViewMessage(
+        message=f"<hl>Versioned up to version '{new_number}'</hl>",
+        position="midCenter",
+        fade=True,
+        fadeStayTime=3000,
+        clickKill=True,
+        dragKill=True,
+    )
 
 
 def save_publish():
@@ -60,13 +71,17 @@ def save_publish():
     # Get a path to the current file (in Maya)
     current_file = cmds.file(query=True, sceneName=True)
     if len(current_file) == 0:
-        raise FileExistsError("The current Maya scene is not in any file, please save the file, before saving an increment")
+        raise FileExistsError(
+            "The current Maya scene is not in any file, please save the file, before saving an increment"
+        )
 
     # Check if the current file is located inside the current project
     current_file = Path(current_file)
     if current_file.is_relative_to(project_path) is False:
         # IF not, raise an error
-        raise RuntimeError("The current Maya file is not located within the current project, please set the correct project")
+        raise RuntimeError(
+            "The current Maya file is not located within the current project, please set the correct project"
+        )
 
     # Create the publish path corresponding to the current file
     publish_path_parts = list(current_file.parent.parts)
@@ -102,12 +117,12 @@ def save_publish():
         new_name = publish_path.stem
         extension = publish_path.suffix
         # Query all the publish backups version numbers
-        file_numbers = [int(file.stem.split("_P_")[-1]) for file in backup_path.iterdir() if file.is_file()]
+        file_numbers = [int(file.stem.split("_P_")[-1]) for file in backup_path.iterdir() if file.is_file()]  # fmt:skip
         if len(file_numbers) == 0:
             publish_version_name = f"{new_name}_001" + extension
         else:
             # Pick the highest number, add 1, modify the publish name
-            publish_version_name = f"{new_name}_{str(max(file_numbers)+1).zfill(3)}" + extension
+            publish_version_name = f"{new_name}_{str(max(file_numbers) + 1).zfill(3)}" + extension
 
         destination = backup_path / publish_version_name
         publish_path.rename(destination)
@@ -116,7 +131,13 @@ def save_publish():
     _export_maya_selection_from_maya(export_path=publish_path, anim_data=False)
 
     msg = "<hl>Model published as a Maya file</hl>"
-    cmds.inViewMessage(statusMessage=msg, position="midCenter", fade=True, dragKill=True, clickKill=True)
+    cmds.inViewMessage(
+        statusMessage=msg,
+        position="midCenter",
+        fade=True,
+        dragKill=True,
+        clickKill=True,
+    )
 
 
 def _export_maya_file_from_maya(export_path: Path, anim_data: bool = False):
@@ -124,7 +145,15 @@ def _export_maya_file_from_maya(export_path: Path, anim_data: bool = False):
     extension = "mayaAscii" if PUBLISH_EXTENSION == ".ma" else "mayaBinary"
     mel.eval(f'file -force -type "{extension}" -ea "{export_path.as_posix()}";')
 
+
 def _export_maya_selection_from_maya(export_path: Path, anim_data: bool = False):
     # Export the Maya file
     extension = "mayaAscii" if PUBLISH_EXTENSION == ".ma" else "mayaBinary"
-    cmds.file(export_path.as_posix(), force=True, exportSelected=True, type=extension, channels=anim_data, constructionHistory=False)
+    cmds.file(
+        export_path.as_posix(),
+        force=True,
+        exportSelected=True,
+        type=extension,
+        channels=anim_data,
+        constructionHistory=False,
+    )

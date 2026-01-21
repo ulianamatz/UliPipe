@@ -2,8 +2,9 @@ import random
 from pathlib import Path
 
 from maya import OpenMayaUI as omui
-from uli_pipe.vendor.Qt import QtCore, QtGui, QtWidgets
 from shiboken6 import wrapInstance
+
+from uli_pipe.vendor.Qt import QtCore, QtGui, QtWidgets
 
 
 def maya_main_window():
@@ -25,7 +26,9 @@ class SillyPopup(QtWidgets.QDialog):
     def create_widgets(self):
         # Create the image widget
         raw_image_pixmap = QtGui.QPixmap(get_random_image().as_posix())
-        self.image_pixmap = raw_image_pixmap.scaled(self.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.image_pixmap = raw_image_pixmap.scaled(
+            self.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation
+        )
         self.image_label = QtWidgets.QLabel()
         self.image_label.setPixmap(self.image_pixmap)
         self.image_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -52,7 +55,9 @@ class SillyPopup(QtWidgets.QDialog):
 
     def update_image(self):
         raw_image_pixmap = QtGui.QPixmap(get_random_image().as_posix())
-        self.new_pixmap = raw_image_pixmap.scaled(self.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.new_pixmap = raw_image_pixmap.scaled(
+            self.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation
+        )
         self.image_label.setPixmap(self.new_pixmap)
 
 

@@ -2,11 +2,11 @@ import shutil
 from pathlib import Path
 
 from maya import OpenMayaUI as omui
-from maya import cmds
-from maya import mel
+from maya import cmds, mel
+from shiboken6 import wrapInstance
+
 from uli_pipe.vendor.Qt import QtCore, QtWidgets
 from uli_pipe.vendor.Qt.QtWidgets import QLabel
-from shiboken6 import wrapInstance
 
 from .project_path import get_project_path
 
@@ -14,9 +14,16 @@ from .project_path import get_project_path
 # Backend ---------------------------------------------------------------------
 def open_scene(scene_path: Path):
     # Check if current scene has changes
-    if cmds.file(q=True, modified=True):
+    if cmds.file(query=True, modified=True):
         # Prompt user to save
-        result = cmds.confirmDialog(title="Save Changes", message="Save changes to current scene?", button=["Save", "Don't Save", "Cancel"], defaultButton="Save", cancelButton="Cancel", dismissString="Cancel")
+        result = cmds.confirmDialog(
+            title="Save Changes",
+            message="Save changes to current scene?",
+            button=["Save", "Don't Save", "Cancel"],
+            defaultButton="Save",
+            cancelButton="Cancel",
+            dismissString="Cancel",
+        )
         if result == "Save":
             cmds.file(save=True)
         elif result == "Cancel":
@@ -53,7 +60,14 @@ def open_asset(name: str, asset_type: str, department: str, version_file: str, a
         template_path = Path(__file__).parent / "assets" / "scene_template.ma"
         shutil.copyfile(template_path, first_file_path)
         open_path = first_file_path
-        cmds.inViewMessage(message=f"Directory empty: created the scene <hl>{first_file_name}</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+        cmds.inViewMessage(
+            message=f"Directory empty: created the scene <hl>{first_file_name}</hl>",
+            position="midCenter",
+            fade=True,
+            fadeStayTime=3000,
+            clickKill=True,
+            dragKill=True,
+        )
     else:
         open_path = scene_dirpath / version_file
         if not open_path.exists():
@@ -81,7 +95,14 @@ def open_shot(name: str, department: str, shot_dirpath: Path, version_file: str)
         template_path = Path(__file__).parent / "assets" / "scene_template.ma"
         shutil.copyfile(template_path, first_file_path)
         open_path = first_file_path
-        cmds.inViewMessage(message=f"Directory empty: created the scene <hl>{first_file_name}</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+        cmds.inViewMessage(
+            message=f"Directory empty: created the scene <hl>{first_file_name}</hl>",
+            position="midCenter",
+            fade=True,
+            fadeStayTime=3000,
+            clickKill=True,
+            dragKill=True,
+        )
     else:
         open_path = scene_dirpath / version_file
         if not open_path.exists():
@@ -123,7 +144,9 @@ class OpenAsset(QtWidgets.QDialog):
         self.asset_type = QtWidgets.QComboBox()
         self.asset_type.addItems(["character", "FX", "item", "prop", "set"])
         self.department = QtWidgets.QComboBox()
-        self.department.addItems(["assetLayout", "cloth", "dressing", "groom", "lookdev", "modeling", "rig"])
+        self.department.addItems(
+            ["assetLayout", "cloth", "dressing", "groom", "lookdev", "modeling", "rig"]
+        )
         self.asset_name = QtWidgets.QComboBox()
         self.update_assets_names()
         self.asset_version = QtWidgets.QComboBox()
@@ -168,11 +191,24 @@ class OpenAsset(QtWidgets.QDialog):
         self.asset_type.currentIndexChanged.connect(lambda: self.update_assets_names())
         self.asset_name.currentIndexChanged.connect(lambda: self.update_assets_versions())
         self.department.currentIndexChanged.connect(lambda: self.update_assets_versions())
-        self.open_button.clicked.connect(lambda: self.open_asset_and_close(name=self.asset_name.currentText(), department=self.department.currentText(), asset_type=self.asset_type.currentText(), version_file=self.asset_version.currentText()))
+        self.open_button.clicked.connect(
+            lambda: self.open_asset_and_close(
+                name=self.asset_name.currentText(),
+                department=self.department.currentText(),
+                asset_type=self.asset_type.currentText(),
+                version_file=self.asset_version.currentText(),
+            )
+        )
 
     def open_asset_and_close(self, name: str, department: str, asset_type: str, version_file: str):
         # Call the backend function 'open_asset' and close the window afterward
-        success = open_asset(name=name, department=department, asset_type=asset_type, asset_dirpath=get_project_path() / "04_asset", version_file=version_file)
+        success = open_asset(
+            name=name,
+            department=department,
+            asset_type=asset_type,
+            asset_dirpath=get_project_path() / "04_asset",
+            version_file=version_file,
+        )
         if success is True:
             self.close()
             self.deleteLater()
@@ -185,7 +221,16 @@ class OpenAsset(QtWidgets.QDialog):
 
     def update_assets_versions(self):
         if self.asset_name.currentText() != "":
-            asset_path = get_project_path() / "04_asset" / self.asset_type.currentText() / self.asset_name.currentText() / "maya" / "scenes" / "edit" / self.department.currentText()
+            asset_path = (
+                get_project_path()
+                / "04_asset"
+                / self.asset_type.currentText()
+                / self.asset_name.currentText()
+                / "maya"
+                / "scenes"
+                / "edit"
+                / self.department.currentText()
+            )
             versions_names = [i.name for i in asset_path.iterdir()]
             self.asset_version.clear()
             self.asset_version.addItems(versions_names)
@@ -250,13 +295,24 @@ class OpenShot(QtWidgets.QDialog):
         self.main_layout.addWidget(self.open_button)
 
     def create_connections(self):
-        self.open_button.clicked.connect(lambda: self.open_shot_and_close(name=self.shot_name.currentText(), department=self.department.currentText(), version_file=self.shot_version.currentText()))
+        self.open_button.clicked.connect(
+            lambda: self.open_shot_and_close(
+                name=self.shot_name.currentText(),
+                department=self.department.currentText(),
+                version_file=self.shot_version.currentText(),
+            )
+        )
         self.shot_name.currentIndexChanged.connect(lambda: self.update_shots_versions())
         self.department.currentIndexChanged.connect(lambda: self.update_shots_versions())
 
     def open_shot_and_close(self, name: str, department: str, version_file: str):
         # Call the backend function 'open_shot' and close the window afterward
-        success = open_shot(name=name, department=department, shot_dirpath=get_project_path() / "05_shot", version_file=version_file)
+        success = open_shot(
+            name=name,
+            department=department,
+            shot_dirpath=get_project_path() / "05_shot",
+            version_file=version_file,
+        )
         if success is True:
             self.close()
             self.deleteLater()
@@ -269,7 +325,15 @@ class OpenShot(QtWidgets.QDialog):
         self.shot_name.addItems(shots_names)
 
     def update_shots_versions(self):
-        shot_path = get_project_path() / "05_shot" / self.shot_name.currentText() / "maya" / "scenes" / self.department.currentText() / "edit"
+        shot_path = (
+            get_project_path()
+            / "05_shot"
+            / self.shot_name.currentText()
+            / "maya"
+            / "scenes"
+            / self.department.currentText()
+            / "edit"
+        )
         versions_names = [i.name for i in shot_path.iterdir()]
         self.shot_version.clear()
         self.shot_version.addItems(versions_names)

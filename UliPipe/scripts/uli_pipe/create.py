@@ -3,8 +3,9 @@ from pathlib import Path
 
 from maya import OpenMayaUI as omui
 from maya import cmds
-from uli_pipe.vendor.Qt import QtCore, QtWidgets
 from shiboken6 import wrapInstance
+
+from uli_pipe.vendor.Qt import QtCore, QtWidgets
 
 from .project_path import get_project_path
 
@@ -32,7 +33,14 @@ def create_asset(name: str, asset_type: str, asset_dirpath: Path):
     template_path = asset_dirpath / "_template_workspace_asset"
     shutil.copytree(template_path, asset_path)
 
-    cmds.inViewMessage(message=f"<hl>Asset '{name}' has been created</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+    cmds.inViewMessage(
+        message=f"<hl>Asset '{name}' has been created</hl>",
+        position="midCenter",
+        fade=True,
+        fadeStayTime=3000,
+        clickKill=True,
+        dragKill=True,
+    )
     return True
 
 
@@ -55,7 +63,14 @@ def create_shot(sequence_number: int, shot_number: int, shot_dirpath: Path):
     template_path = shot_dirpath / "_template_workspace_shot"
     shutil.copytree(template_path, shot_path)
 
-    cmds.inViewMessage(message=f"<hl>Shot '{shot_name}' has been created</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+    cmds.inViewMessage(
+        message=f"<hl>Shot '{shot_name}' has been created</hl>",
+        pos="midCenter",
+        fade=True,
+        fadeStayTime=3000,
+        clickKill=True,
+        dragKill=True,
+    )
 
 
 def maya_main_window():
@@ -96,11 +111,20 @@ class CreateAsset(QtWidgets.QDialog):
         self.setLayout(self.main_layout)
 
     def create_connections(self):
-        self.create_button.clicked.connect(lambda: self.create_asset_and_close(name=self.asset_name.text(), asset_type=self.asset_type.currentText()))
+        self.create_button.clicked.connect(
+            lambda: self.create_asset_and_close(
+                name=self.asset_name.text(),
+                asset_type=self.asset_type.currentText(),
+            )
+        )
 
     def create_asset_and_close(self, name: str, asset_type: str):
         # Call the backend function 'create_asset' and close the window afterward
-        success = create_asset(name=name, asset_type=asset_type, asset_dirpath=get_project_path() / "04_asset")
+        success = create_asset(
+            name=name,
+            asset_type=asset_type,
+            asset_dirpath=get_project_path() / "04_asset",
+        )
         if success is True:
             self.close()
             self.deleteLater()
@@ -147,11 +171,20 @@ class CreateShot(QtWidgets.QDialog):
         self.setLayout(self.main_layout)
 
     def create_connections(self):
-        self.create_button.clicked.connect(lambda: self.create_shot_and_close(sequence_number=int(self.sequence_number.value() * 10), shot_number=int(self.shot_number.value() * 10)))
+        self.create_button.clicked.connect(
+            lambda: self.create_shot_and_close(
+                sequence_number=int(self.sequence_number.value() * 10),
+                shot_number=int(self.shot_number.value() * 10),
+            )
+        )
 
     def create_shot_and_close(self, sequence_number, shot_number):
         # Call the backend function 'create_shot' and close the window afterward
-        success = create_shot(sequence_number=sequence_number, shot_number=shot_number, shot_dirpath=get_project_path() / "05_shot")
+        success = create_shot(
+            sequence_number=sequence_number,
+            shot_number=shot_number,
+            shot_dirpath=get_project_path() / "05_shot",
+        )
         if success is True:
             self.close()
             self.deleteLater()

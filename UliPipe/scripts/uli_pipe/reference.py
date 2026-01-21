@@ -1,12 +1,12 @@
 from pathlib import Path
 
-from uli_pipe.vendor.Qt import QtWidgets, QtCore
-from uli_pipe.vendor.Qt.QtWidgets import QLabel
-from shiboken6 import wrapInstance
 from maya import OpenMayaUI as omui
 from maya import cmds
+from shiboken6 import wrapInstance
 
 from uli_pipe.project_path import get_project_path
+from uli_pipe.vendor.Qt import QtCore, QtWidgets
+from uli_pipe.vendor.Qt.QtWidgets import QLabel
 
 
 # Backend ---------------------------------------------------------------------
@@ -43,7 +43,9 @@ def reference_asset(name: str, asset_type: str, department: str, asset_dirpath: 
     if len(publish_files) == 0:
         raise FileNotFoundError(f"There is no publish file in the directory '{scene_dirpath}'")
     elif len(publish_files) > 1:
-        raise FileNotFoundError(f"There are multiple conflicting publish files in the directory '{scene_dirpath}'")
+        raise FileNotFoundError(
+            f"There are multiple conflicting publish files in the directory '{scene_dirpath}'"
+        )
     else:
         reference_index = filenames.index(publish_files[0])
         reference_path = files_paths[reference_index]
@@ -63,8 +65,8 @@ class ReferenceAsset(QtWidgets.QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(parent=maya_main_window(), *args, **kwargs)
         self.setWindowTitle("Reference Asset")
-        #self.setFixedHeight(150)
-        #self.setFixedWidth(255)
+        # self.setFixedHeight(150)
+        # self.setFixedWidth(255)
 
         self.create_widgets()
         self.create_layouts()
@@ -83,7 +85,9 @@ class ReferenceAsset(QtWidgets.QDialog):
         self.asset_type = QtWidgets.QComboBox()
         self.asset_type.addItems(["character", "FX", "item", "prop", "set"])
         self.department = QtWidgets.QComboBox()
-        self.department.addItems(["assetLayout", "cloth", "dressing", "groom", "lookdev", "modeling", "rig"])
+        self.department.addItems(
+            ["assetLayout", "cloth", "dressing", "groom", "lookdev", "modeling", "rig"]
+        )
         self.asset_name = QtWidgets.QComboBox()
         self.update_assets_names()
 
@@ -121,11 +125,22 @@ class ReferenceAsset(QtWidgets.QDialog):
 
     def create_connections(self):
         self.asset_type.currentIndexChanged.connect(lambda: self.update_assets_names())
-        self.open_button.clicked.connect(lambda: self.reference_asset_and_close(name=self.asset_name.currentText(), department=self.department.currentText(), asset_type=self.asset_type.currentText()))
+        self.open_button.clicked.connect(
+            lambda: self.reference_asset_and_close(
+                name=self.asset_name.currentText(),
+                department=self.department.currentText(),
+                asset_type=self.asset_type.currentText(),
+            )
+        )
 
     def reference_asset_and_close(self, name: str, department: str, asset_type: str):
         # Call the backend function 'open_asset' and close the window afterward
-        success = reference_asset(name=name, department=department, asset_type=asset_type, asset_dirpath=get_project_path() / "04_asset")
+        success = reference_asset(
+            name=name,
+            department=department,
+            asset_type=asset_type,
+            asset_dirpath=get_project_path() / "04_asset",
+        )
         if success is True:
             self.close()
             self.deleteLater()

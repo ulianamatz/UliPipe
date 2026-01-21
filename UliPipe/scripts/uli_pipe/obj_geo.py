@@ -1,7 +1,6 @@
 from pathlib import Path
 
-from maya import cmds
-from maya import mel
+from maya import cmds, mel
 
 from uli_pipe.vendor.Qt import QtWidgets
 
@@ -43,7 +42,9 @@ def export_obj():
         cmds.select(filter_dag)
         if not cmds.pluginInfo("objExport", query=True, loaded=True):
             cmds.loadPlugin("objExport")
-        mel.eval(f'file -force -options "groups=1;ptgroups=0;materials=0;smoothing=1;normals=1" -type "OBJexport" -pr -es "{export_path.as_posix()}";')
+        mel.eval(
+            f'file -force -options "groups=1;ptgroups=0;materials=0;smoothing=1;normals=1" -type "OBJexport" -pr -es "{export_path.as_posix()}";'
+        )
         msg = f"<hl>Export successful to '{export_path.as_posix()}'</hl>"
         cmds.inViewMessage(
             statusMessage=msg,

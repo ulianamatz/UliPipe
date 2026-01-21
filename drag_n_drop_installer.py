@@ -6,7 +6,6 @@ from pathlib import Path
 
 from maya import cmds
 
-
 MAYA_APP_DIR = os.getenv("MAYA_APP_DIR")
 SUPPORTED_MAYA_VERSIONS = (2023, 2024, 2025)
 
@@ -92,6 +91,7 @@ def onMayaDroppedPythonFile(*args, **kwargs):
     self_import.load_user_setup()
 
     from uli_pipe import reload_module
+
     reload_module()
 
     cmds.confirmDialog(

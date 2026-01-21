@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from maya import cmds
+
 from uli_pipe.vendor.Qt import QtWidgets
 
 
@@ -25,7 +26,14 @@ def set_project_path():
         with open(current_project_path, "w") as file:
             file.write(new_project_path.as_posix())
 
-        cmds.inViewMessage(message=f"<hl>Project '{new_project_path.name}' has been set</hl>", pos="midCenter", fade=True, fadeStayTime=3000, clickKill=True, dragKill=True)
+        cmds.inViewMessage(
+            message=f"<hl>Project '{new_project_path.name}' has been set</hl>",
+            position="midCenter",
+            fade=True,
+            fadeStayTime=3000,
+            clickKill=True,
+            dragKill=True,
+        )
         return new_project_path
     return None
 
@@ -35,13 +43,17 @@ def get_project_path():
     current_project_path = Path.home() / ".ulipipe" / "current_project.txt"
     # If it doesn't exist output an error
     if current_project_path.exists() is False:
-        raise FileNotFoundError("The current_project file does not exist, please use the Set Project Path beforehand")
+        raise FileNotFoundError(
+            "The current_project file does not exist, please use the Set Project Path beforehand"
+        )
     # if it exists, read its content
     with open(current_project_path, "r") as file:
         file_data = file.read()
 
     # If the file is empty raise an error
     if len(file_data) == 0:
-        raise ValueError("The current_project file does not contain a path to a project, please use the Set Project Path beforehand")
+        raise ValueError(
+            "The current_project file does not contain a path to a project, please use the Set Project Path beforehand"
+        )
     # If the file has a path, return it
     return Path(file_data)
