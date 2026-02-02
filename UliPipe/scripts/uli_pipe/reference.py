@@ -69,8 +69,7 @@ class ReferenceAsset(QtWidgets.QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(parent=maya_main_window(), *args, **kwargs)
         self.setWindowTitle("Reference Asset")
-        # self.setFixedHeight(150)
-        # self.setFixedWidth(255)
+        self.resize(450, 250)
 
         self.create_widgets()
         self.create_layouts()
