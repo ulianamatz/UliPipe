@@ -219,6 +219,7 @@ class OpenAsset(QtWidgets.QDialog):
     def update_assets_names(self):
         assets_path = get_project_path() / "04_asset" / self.asset_type.currentText()
         assets_names = [i.stem for i in assets_path.iterdir()]
+        assets_names.sort(key=str.lower)
         self.asset_name.clear()
         self.asset_name.addItems(assets_names)
 
@@ -235,6 +236,7 @@ class OpenAsset(QtWidgets.QDialog):
                 / self.department.currentText()
             )
             versions_names = [i.name for i in asset_path.iterdir()]
+            versions_names.sort(key=str.lower)
             self.asset_version.clear()
             self.asset_version.addItems(versions_names)
             self.asset_version.setCurrentIndex(len(versions_names) - 1)
@@ -327,6 +329,7 @@ class OpenShot(QtWidgets.QDialog):
         for seq in sequences:
             shots = [i.stem for i in seq.iterdir()]
             shot_names += shots
+        shot_names.sort(key=str.lower)
         self.shot_name.clear()
         self.shot_name.addItems(shot_names)
 
@@ -343,7 +346,7 @@ class OpenShot(QtWidgets.QDialog):
             / "edit"
         )
         versions_names = [i.name for i in shot_path.iterdir()]
-        versions_names.reverse()
+        versions_names.sort(key=str.lower)
         self.shot_version.clear()
         self.shot_version.addItems(versions_names)
         self.shot_version.setCurrentIndex(len(versions_names) - 1)
